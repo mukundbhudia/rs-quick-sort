@@ -25,13 +25,15 @@ fn partition(array_to_sort: &mut [isize], low: usize, high: usize) -> usize {
 }
 
 fn qs(array_to_sort: &mut [isize], low: usize, high: usize) {
-    // We may want to use `std::cmp::Ord` here later (https://doc.rust-lang.org/std/cmp/trait.Ord.html)
+    // We may want to use `std::cmp::Ord` here later 
+    // (https://doc.rust-lang.org/std/cmp/trait.Ord.html)
+    println!("qs before: {:?}", array_to_sort);
     if low < high {
         let mid = partition(array_to_sort, low, high);
-        qs(array_to_sort, low, mid);
+        qs(array_to_sort, low, mid - 1);
         qs(array_to_sort, mid + 1, high);
     }
-    println!("qs: {:?}", array_to_sort);
+    // println!("qs after: {:?}", array_to_sort);
 }
 
 pub fn quick_sort(array_to_sort: &mut [isize]) {
@@ -56,28 +58,48 @@ mod tests {
     #[test]
     fn basic_sort_1() {
         let mut array = [1,2,3];
-        quick_sort(&mut array);
+        let array_length = array.len();
+        qs(&mut array, 0, array_length - 1);
         assert_eq!(array, [1,2,3]);
     }
 
     #[test]
     fn basic_sort_2() {
         let mut array = [3,2,1];
-        qs(&mut array,0,2);
+        let array_length = array.len();
+        qs(&mut array, 0, array_length - 1);
         assert_eq!(array, [1,2,3]);
     }
 
     #[test]
     fn basic_sort_3() {
         let mut array = [16,9,4,6,12,3,8,7];
-        qs(&mut array,0,7);
+        let array_length = array.len();
+        qs(&mut array, 0, array_length - 1);
         assert_eq!(array, [3,4,6,7,8,9,12,16]);
     }
 
     #[test]
     fn basic_sort_4() {
         let mut array = [3, 5, 1, 4, 2];
-        qs(&mut array,0,4);
+        let array_length = array.len();
+        qs(&mut array, 0, array_length - 1);
         assert_eq!(array, [1, 2, 3, 4, 5]);
+    }
+
+    #[test]
+    fn basic_sort_5() {
+        let mut array = [3, 1, 4, 2];
+        let array_length = array.len();
+        qs(&mut array, 0, array_length - 1);
+        assert_eq!(array, [1, 2, 3, 4]);
+    }
+
+    #[test]
+    fn basic_sort_6() {
+        let mut array = [10, 7, 8, 9, 1, 5];
+        let array_length = array.len();
+        qs(&mut array, 0, array_length - 1);
+        assert_eq!(array, [1, 5, 7, 8, 9, 10]);
     }
 }
