@@ -4,33 +4,31 @@ fn main() {
 }
 
 fn partition(array_to_sort: &mut [isize], low: usize, high: usize) -> usize {
-    let pivot = array_to_sort[high];
+    // let mid = (high + low)/2;
+    let mid = high;
+    let pivot = array_to_sort[mid];
 
-    let mut i = low;
     let mut j = low;
 
-    while j < high - 1 {
-        if array_to_sort[j] < pivot {
+    for i in low..high {
+        if array_to_sort[i] <= pivot {
             array_to_sort.swap(i, j);
-            i += 1;
+            j += 1;
         }
-        j += 1;
     }
 
-    if array_to_sort[high] < array_to_sort[i] {
-        array_to_sort.swap(i, high);
-    }
+    array_to_sort.swap(j, mid);
 
-    i
+    j
 }
 
 fn qs(array_to_sort: &mut [isize], low: usize, high: usize) {
     // We may want to use `std::cmp::Ord` here later 
     // (https://doc.rust-lang.org/std/cmp/trait.Ord.html)
-    println!("qs before: {:?}", array_to_sort);
+    println!("qs before - l: {}, h: {}, {:?}", low, high, array_to_sort);
     if low < high {
         let mid = partition(array_to_sort, low, high);
-        qs(array_to_sort, low, mid - 1);
+        qs(array_to_sort, low, mid -1);
         qs(array_to_sort, mid + 1, high);
     }
     // println!("qs after: {:?}", array_to_sort);
